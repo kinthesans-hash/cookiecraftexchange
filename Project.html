@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects - CookieCraft Exchange</title>
+<style>
+  
+  body {
+    margin:0;
+    font-family:Poppins, sans-serif;
+    color:#fff;
+    background:#1a1a1a;
+    overflow-x:hidden;
+    overflow-y:auto;
+  }
+
+
+  /* Animated streak lights */
+  body::before {
+    content:'';
+    position:fixed;
+    top:-50%;
+    left:-50%;
+    width:200%;
+    height:200%;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.05) 0px,
+      rgba(255,255,255,0.05) 2px,
+      transparent 2px,
+      transparent 6px
+    );
+    animation:streak 4s linear infinite, lightsFall 6s linear infinite alternate;
+    pointer-events:none;
+    z-index:0;
+    mix-blend-mode:screen;
+    filter:blur(6px) saturate(115%);
+    opacity:0.9;
+  }
+  @keyframes streak {
+    0% { transform:translate(0,0) rotate(45deg); }
+    100% { transform:translate(50px,50px) rotate(45deg); }
+  }
+  @keyframes lightsFall {
+    0% { transform:translateY(-30px); opacity:0.85; }
+    100% { transform:translateY(60px); opacity:0.9; }
+  }
+
+  header {
+    background:#d9822b;
+    padding:2rem 1rem;
+    text-align:center;
+    z-index:1;
+    position:relative;
+  }
+  header h1 { font-size:2.5rem; margin:0; }
+  header p { font-size:1.2rem; margin-top:0.5rem; font-style:italic; }
+
+  nav {
+    text-align:center;
+    margin:1rem 0;
+    position:relative;
+    z-index:2;
+  }
+  nav a {
+    display:inline-block;
+    margin:0 1rem;
+    padding:0.5rem 1.2rem;
+    background:#3b2f2f;
+    color:#fff;
+    text-decoration:none;
+    border-radius:8px;
+    transition:0.3s;
+  }
+  nav a:hover { background:#5c3d2e; }
+
+  main {
+    max-width:1000px;
+    margin:2rem auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+    gap:2rem;
+    padding:0 1rem;
+    position:relative;
+    z-index:1;
+  }
+
+  .card {
+    background:#2e2e2e;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.5);
+    overflow:hidden;
+    transition:transform 0.3s, box-shadow 0.3s;
+  }
+  .card:hover { transform:translateY(-10px); box-shadow:0 15px 25px rgba(0,0,0,0.7); }
+
+  .card img { width:100%; display:block; border-bottom:1px solid #444; }
+  .card-content { padding:1rem; }
+  .card-content h3 { margin-top:0; color:#f7b733; }
+  .card-content p { font-size:0.95rem; line-height:1.4; }
+
+  .shake-button {
+    margin-top:10px;
+    background:#f7b733;
+    color:#1a1a1a;
+    border:none;
+    padding:0.5rem 1rem;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.3s;
+  }
+  .shake-button:hover { animation:shake 0.5s; background:#ffd54f; }
+  @keyframes shake {
+    0% { transform:translateX(0); }
+    20% { transform:translateX(-5px); }
+    40% { transform:translateX(5px); }
+    60% { transform:translateX(-5px); }
+    80% { transform:translateX(5px); }
+    100% { transform:translateX(0); }
+  }
+
+  footer {
+    background:#d9822b;
+    color:#fff;
+    text-align:center;
+    padding:1rem;
+    margin-top:2rem;
+    position:relative;
+    z-index:1;
+  }
+</style>
+</head>
+<!-- ===== Atlassight Chat Widget (paste before </body>) ===== -->
+<style>
+  /* Atlassight styles */
+  #atlassight-widget { position: fixed; right: 18px; bottom: 18px; z-index: 9999; font-family: Poppins, sans-serif; }
+  #atlassight-orb {
+    width:56px; height:56px; border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, #ffd54f, #f7b733 50%, #d9822b 100%);
+    box-shadow: 0 6px 18px rgba(217,138,42,0.35), 0 0 24px rgba(247,183,51,0.18);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition: transform .12s ease;
+  }
+  #atlassight-orb:hover { transform: scale(1.06); }
+  #atlassight-orb .dot { width:10px; height:10px; border-radius:50%; background:#1a1a1a; opacity:.95; box-shadow:0 0 8px rgba(0,0,0,.5); }
+
+  /* chat bubble */
+  #atlassight-chat {
+    width:320px; max-width:calc(100vw - 40px);
+    background: linear-gradient(180deg, rgba(20,20,20,0.98), rgba(26,26,26,0.98));
+    color:#fff; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.6);
+    overflow:hidden; display:none; margin-bottom:12px;
+  }
+  #atlassight-chat.header { padding:10px 14px; display:flex; align-items:center; gap:10px; }
+  #atlassight-chat h4 { margin:0; font-size:15px; color:#ffd54f; text-shadow:0 0 6px rgba(255,213,79,.15); }
+  #atlassight-chat .close { margin-left:auto; cursor:pointer; opacity:.9; }
+
+  #atlassight-messages { max-height:340px; overflow:auto; padding:12px; display:flex; flex-direction:column; gap:10px; }
+  .msg { max-width:82%; padding:8px 10px; border-radius:10px; line-height:1.2; font-size:13px; }
+  .msg.user { align-self:flex-end; background:rgba(255,255,255,0.95); color:#111; border-bottom-right-radius:6px; }
+  .msg.bot  { align-self:flex-start; background: linear-gradient(90deg,#2e2e2e,#333); color:#ffd54f; border-bottom-left-radius:6px; text-shadow:0 0 3px rgba(0,0,0,.6); }
+
+  #atlassight-input { display:flex; gap:8px; padding:10px; border-top:1px solid rgba(255,255,255,0.03); }
+  #atlassight-input input {
+    flex:1; padding:8px 10px; border-radius:8px; border:1px solid rgba(255,255,255,0.05); background:#0f0f0f; color:#fff;
+  }
+  #atlassight-input button {
+    background:#ffd54f; color:#111; border:none; padding:8px 10px; border-radius:8px; cursor:pointer;
+  }
+
+  /* tiny responsive */
+  @media (max-width:420px){
+    #atlassight-chat { width:92vw; right:6px; left:6px; }
+    #atlassight-orb{ width:48px; height:48px; }
+  }
+</style>
+
+<div id="atlassight-widget" aria-live="polite">
+  <div id="atlassight-chat" role="dialog" aria-label="Atlassight helper">
+    <div class="header" style="padding:10px 12px; align-items:center;">
+      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(90deg,#ffd54f,#f7b733);display:flex;align-items:center;justify-content:center;">
+        <div style="width:8px;height:8px;border-radius:50%;background:#111;"></div>
+      </div>
+      <h4 id="atlassight-title">Atlassight — helper</h4>
+      <div class="close" id="atlassight-close" title="Close">✕</div>
+    </div>
+
+    <div id="atlassight-messages" role="log" aria-live="polite"></div>
+
+    <div id="atlassight-input">
+      <input id="atlassight-text" type="text" placeholder="Ask me about projects, demos, or how to use the site..." />
+      <button id="atlassight-send">Send</button>
+    </div>
+  </div>
+
+  <div id="atlassight-orb" title="Open Atlassight">
+    <div class="dot" aria-hidden="true"></div>
+  </div>
+</div>
+
+<script>
+/* ===== Atlassight JS (local mode, plug-in ready) ===== */
+(() => {
+  const ASSISTANT_NAME = "Atlassight";
+  const orb = document.getElementById('atlassight-orb');
+  const chat = document.getElementById('atlassight-chat');
+  const closeBtn = document.getElementById('atlassight-close');
+  const messagesEl = document.getElementById('atlassight-messages');
+  const input = document.getElementById('atlassight-text');
+  const sendBtn = document.getElementById('atlassight-send');
+
+  // Simple persona replies - edit this object to customize behavior
+  const personaReplies = [
+    { q: /project|projects|demo/i, a: "To view projects, click Projects. If you'd like a demo, press 'Request Demo' on a project card — I can walk you through it." },
+    { q: /how|help|what do i do|where/i, a: "Hey — try clicking Projects to browse, or ask me about a specific map/mod name and I'll tell you more." },
+    { q: /cookie|cookiecraft/i, a: "Cookies are our currency 🍪 — trade them for demos or special ranks. Want to know how to earn them?" },
+    { q: /youtube|channel/i, a: "Our YouTube is 'dezs frin' — verified subs get the Subscriber Rank. Link is on the About page." },
+    { q: /hello|hi|hey/i, a: "Hey! I'm Atlassight — here to help. Ask about projects, demos, or how the site works." }
+  ];
+  const fallbackReplies = [
+    "Nice question — here's the short version: check Projects or ask me about a project name.",
+    "I don't know that yet, but you can ask about demos, downloads, or how to request a demo.",
+    "Hmm — I can help with site actions: 'open projects', 'how to request demo', or 'where's the YouTube link'."
+  ];
+
+  // helpers
+  function appendMessage(text, from='bot') {
+    const msg = document.createElement('div');
+    msg.className = 'msg ' + (from==='user' ? 'user' : 'bot');
+    msg.textContent = text;
+    messagesEl.appendChild(msg);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function localReply(text){
+    // simple keyword matching
+    for(const p of personaReplies){
+      if(p.q.test(text)) return p.a;
+    }
+    // fallback random
+    return fallbackReplies[Math.floor(Math.random()*fallbackReplies.length)];
+  }
+
+  async function handleSend(raw){
+    const text = (raw||'').trim();
+    if(!text) return;
+    appendMessage(text, 'user');
+    input.value = '';
+    input.disabled = true;
+    sendBtn.disabled = true;
+
+    // show a typing placeholder
+    appendMessage('typing...', 'bot');
+    // simulate thinking
+    await new Promise(r => setTimeout(r, 450 + Math.random()*700));
+
+    // remove typing placeholder
+    const last = messagesEl.querySelectorAll('.msg.bot');
+    if(last.length) last[last.length-1].remove();
+
+    // NOTE: replace this with real API call later:
+    // const reply = await sendToAPI(text);
+    const reply = localReply(text);
+    appendMessage(reply, 'bot');
+
+    input.disabled = false;
+    sendBtn.disabled = false;
+    input.focus();
+  }
+
+  // Placeholder for future API integration
+  async function sendToAPI(message){
+    // Example structure: replace with your fetch to server or model endpoint
+    /*
+    const res = await fetch('/api/atlassight', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({message})
+    });
+    const data = await res.json();
+    return data.reply;
+    */
+    return "API not configured — replace sendToAPI() with your endpoint.";
+  }
+
+  // UI events
+  orb.addEventListener('click', ()=> {
+    const visible = getComputedStyle(chat).display !== 'none';
+    if(visible) { chat.style.display = 'none'; }
+    else {
+      chat.style.display = 'block';
+      input.focus();
+      // add a quick intro
+      if(messagesEl.children.length === 0) {
+        appendMessage(`Hey — I'm ${ASSISTANT_NAME}. Ask me anything about the site.`, 'bot');
+      }
+    }
+  });
+  closeBtn.addEventListener('click', ()=> { chat.style.display = 'none'; });
+
+  sendBtn.addEventListener('click', ()=> handleSend(input.value));
+  input.addEventListener('keydown', e => { if(e.key === 'Enter') { e.preventDefault(); handleSend(input.value); } });
+
+  // optional: keyboard shortcut to open (shift + /)
+  document.addEventListener('keydown', e => {
+    if(e.shiftKey && e.key === '?') { // Shift+? -> open
+      chat.style.display = 'block';
+      input.focus();
+    }
+  });
+
+  // Make widget draggable-ish (small move on long-press) — optional, lightweight
+  (() => {
+    let dragging = false, startX=0, startY=0, startR=0, startB=0;
+    orb.addEventListener('pointerdown', (ev) => {
+      orb.setPointerCapture(ev.pointerId);
+      startX = ev.clientX; startY = ev.clientY;
+      dragging = true;
+    });
+    document.addEventListener('pointermove', (ev) => {
+      if(!dragging) return;
+      const dx = ev.clientX - startX;
+      const dy = ev.clientY - startY;
+      // gentle move: change transform for small offset, keep anchored to bottom-right
+      orb.style.transform = `translate(${dx*0.15}px, ${dy*0.15}px)`;
+    });
+    document.addEventListener('pointerup', () => {
+      dragging = false;
+      orb.style.transform = '';
+    });
+  })();
+
+  // expose for debugging (optional)
+  window.Atlassight = { appendMessage, handleSend, sendToAPI };
+
+})();
+</script>
+<!-- ===== end Atlassight ===== -->
+
+<body>
+
+<header>
+  <h1>🍪 CookieCraft Exchange 🍪</h1>
+  <p>Our Flashy Projects</p>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="Project.html">Projects</a>
+  <a href="aboutme.html">About</a>
+</nav>
+
+<main>
+  <div class="card">
+    <img src="images/cookie-city.png" alt="Cookie City Map">
+    <div class="card-content">
+      <h3>Cookie City Map</h3>
+      <p>Explore a city made entirely of chocolate-chip towers and candy streets!</p>
+      <button class="shake-button">Request Demo</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="images/bakery-defense.png" alt="Bakery Defense Mod">
+    <div class="card-content">
+      <h3>Bakery Defense Mod</h3>
+      <p>Defend your cookie stash from waves of hungry mobs with traps and upgrades.</p>
+      <button class="shake-button">Request Demo</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="images/choco-hills.png" alt="Chocolate Hills Park">
+    <div class="card-content">
+      <h3>Chocolate Hills Park</h3>
+      <p>Discover scenic hills, hidden secrets, and Easter-egg treats in this world.</p>
+      <button class="shake-button">Request Demo</button>
+    </div>
+  </div>
+</main>
+
+<footer>© 2025 CookieCraft Exchange • Made by Dezs frin & kinthesans</footer>
+
+</body>
+</html>

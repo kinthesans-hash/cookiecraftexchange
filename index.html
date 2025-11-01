@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CookieCraft Exchange</title>
+<style>
+  html, body {
+    margin:0;
+    padding:0;
+    min-height:100vh;
+    font-family:Poppins, sans-serif;
+    background:#111;
+    color:#fff;
+    overflow-x:hidden;
+    overflow-y:auto;
+  }
+
+  /* --- Particles --- */
+  #particles {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:1;
+    pointer-events:none;
+  }
+  .particle {
+    position:absolute;
+    border-radius:50%;
+    background: rgba(247,183,51,0.3);
+    width:4px;
+    height:4px;
+    transition: transform 0.2s;
+  }
+
+  /* --- Mouse Trail --- */
+  .trail {
+    position:fixed;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#ffd54f;
+    opacity:0.7;
+    pointer-events:none;
+    transform:translate(-50%, -50%);
+    animation: fadeTrail 0.6s ease-out forwards;
+  }
+
+  @keyframes fadeTrail {
+    0% { opacity:1; transform:scale(1) translate(-50%, -50%); }
+    100% { opacity:0; transform:scale(0) translate(-50%, -50%); }
+  }
+
+  /* --- Main Content --- */
+  #content {
+    position:relative;
+    z-index:2;
+    max-width:900px;
+    margin:0 auto;
+    padding:2rem 1rem;
+  }
+
+  nav {
+    text-align:center;
+    margin-bottom:2rem;
+  }
+  nav a {
+    display:inline-block;
+    margin:0 1rem;
+    padding:0.5rem 1rem;
+    background:#3b2f2f;
+    color:#fff;
+    text-decoration:none;
+    border-radius:8px;
+    transition:0.3s;
+  }
+  nav a:hover { background:#5c3d2e; }
+
+  header {
+    text-align:center;
+    margin-bottom:2rem;
+  }
+
+  h1 {
+    font-size:2.5rem;
+    color:#f7b733;
+    text-shadow:0 0 10px #ffd54f;
+  }
+
+  p {
+    font-size:1.1rem;
+  }
+
+  footer {
+    text-align:center;
+    background:#d9822b;
+    padding:1rem;
+    border-radius:12px;
+    margin-top:2rem;
+    text-shadow:0 0 5px #fff,0 0 10px #ffd54f;
+  }
+</style>
+</head>
+<body>
+
+<!-- Particles -->
+<div id="particles"></div>
+
+<!-- Main Content -->
+<div id="content">
+  <header>
+    <h1>Welcome to CookieCraft Exchange</h1>
+    <p>A world of cookies, creativity, and coding 🍪</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="Project.html">Projects</a>
+    <a href="Aboutme.html">About</a>
+  </nav>
+
+  <section style="background: rgba(46,46,46,0.85); padding:2rem; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.5);">
+    <h2 style="color:#f7b733; text-shadow:0 0 5px #ffd54f;">Our Mission</h2>
+    <p>At <span class="highlight">CookieCraft Exchange</span>, we aim to bring digital creativity to life. Whether it's Minecraft mods, unique animations, or cookie-themed adventures — everything we create is made with heart, humor, and a touch of neon magic.</p>
+  </section>
+
+  <footer>© 2025 CookieCraft Exchange • Made by Dezs frin & kinthesans</footer>
+</div>
+
+<script>
+  const particlesContainer = document.getElementById('particles');
+
+  // --- Create static particles with velocity ---
+  const particles = [];
+  for(let i=0;i<50;i++){
+    const p = document.createElement('div');
+    p.className='particle';
+    const size=2+Math.random()*6;
+    p.style.width=size+'px';
+    p.style.height=size+'px';
+    p.x = Math.random() * window.innerWidth;
+    p.y = Math.random() * window.innerHeight;
+    p.vx = (Math.random()-0.5) * 0.3;
+    p.vy = (Math.random()-0.5) * 0.3;
+    p.style.left = p.x + 'px';
+    p.style.top = p.y + 'px';
+    particlesContainer.appendChild(p);
+    particles.push(p);
+  }
+
+  function animateParticles(){
+    particles.forEach(p=>{
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if(mouse.x!==undefined && mouse.y!==undefined){
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if(dist < 150){
+          const force = (150-dist)/150 * 0.5;
+          p.vx += dx*force*0.0005;
+          p.vy += dy*force*0.0005;
+        }
+      }
+
+      if(p.x < 0) p.x = window.innerWidth;
+      if(p.x > window.innerWidth) p.x = 0;
+      if(p.y < 0) p.y = window.innerHeight;
+      if(p.y > window.innerHeight) p.y = 0;
+
+      p.style.left = p.x + 'px';
+      p.style.top = p.y + 'px';
+    });
+    requestAnimationFrame(animateParticles);
+  }
+
+  const mouse = {x:undefined, y:undefined};
+  document.addEventListener('mousemove', e=>{
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+
+    const trail = document.createElement('div');
+    trail.className='trail';
+    trail.style.left = `${e.clientX}px`;
+    trail.style.top = `${e.clientY}px`;
+    document.body.appendChild(trail);
+    setTimeout(()=>trail.remove(),600);
+  });
+
+  animateParticles();
+</script>
+
+</body>
+</html>
