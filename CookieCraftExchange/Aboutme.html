@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About - CookieCraft Exchange</title>
+<style>
+  html, body {
+    margin:0;
+    padding:0;
+    min-height:100vh;
+    font-family:Poppins, sans-serif;
+    background:#111;
+    color:#fff;
+    overflow-x:hidden;
+    overflow-y:auto;
+  }
+
+  /* --- Particles --- */
+  #particles {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:1;
+    pointer-events:none;
+  }
+  .particle {
+    position:absolute;
+    border-radius:50%;
+    background: rgba(247,183,51,0.3);
+    width:4px;
+    height:4px;
+    transition: transform 0.2s;
+  }
+
+  /* --- Mouse Trail (improved & smoother) --- */
+  .trail {
+    position:fixed;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#ffd54f;
+    opacity:0.7;
+    pointer-events:none;
+    transform:translate(-50%, -50%);
+    animation: fadeTrail 0.6s ease-out forwards;
+  }
+
+  @keyframes fadeTrail {
+    0% { opacity:1; transform:scale(1) translate(-50%, -50%); }
+    100% { opacity:0; transform:scale(0) translate(-50%, -50%); }
+  }
+
+  /* --- Hover Sparks --- */
+  .spark {
+    position:absolute;
+    width:4px;
+    height:4px;
+    background:#ffd54f;
+    border-radius:50%;
+    opacity:1;
+    pointer-events:none;
+    animation: sparkAnim 0.5s forwards;
+  }
+  @keyframes sparkAnim {
+    0% { transform: scale(0.5) rotate(0deg); opacity:1; }
+    50% { transform: scale(1.2) rotate(20deg); opacity:0.8; }
+    100% { transform: scale(1.5) rotate(-20deg); opacity:0; }
+  }
+
+  /* --- Main Content --- */
+  #content {
+    position:relative;
+    z-index:2;
+    max-width:900px;
+    margin:0 auto;
+    padding:2rem 1rem;
+  }
+
+  nav {
+    text-align:center;
+    margin-bottom:2rem;
+  }
+  nav a {
+    display:inline-block;
+    margin:0 1rem;
+    padding:0.5rem 1rem;
+    background:#3b2f2f;
+    color:#fff;
+    text-decoration:none;
+    border-radius:8px;
+    transition:0.3s;
+  }
+  nav a:hover { background:#5c3d2e; }
+
+  section {
+    position:relative;
+    margin-bottom:2rem;
+    background: rgba(46,46,46,0.85);
+    padding:1.5rem;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.5);
+    opacity:0;
+    transform:translateY(20px);
+    animation:fadeUp 1s forwards;
+    transition: box-shadow 0.3s, transform 0.15s;
+    overflow:hidden;
+  }
+  section:nth-of-type(1){animation-delay:0.3s;}
+  section:nth-of-type(2){animation-delay:0.6s;}
+  section:nth-of-type(3){animation-delay:0.9s;}
+  section:nth-of-type(4){animation-delay:1.2s;}
+  @keyframes fadeUp{to{opacity:1; transform:translateY(0);}}
+
+  h2{color:#f7b733; text-shadow:0 0 5px #ffd54f;}
+  ul li{margin-bottom:0.5rem;}
+  .highlight{color:#ffd54f; font-weight:bold; text-shadow:0 0 5px #ffd54f;}
+  a {color:#ffd54f; text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  footer{
+    text-align:center;
+    background:#d9822b;
+    padding:1rem;
+    border-radius:0 0 12px 12px;
+    margin-top:2rem;
+    text-shadow:0 0 5px #fff,0 0 10px #ffd54f;
+  }
+</style>
+</head>
+<body>
+
+<!-- Particles -->
+<div id="particles"></div>
+
+<!-- Main Content -->
+<div id="content">
+  <header style="text-align:center; margin-bottom:2rem;">
+    <h1>About Dezs frin & kinthesans</h1>
+    <p>The living, breathing duo behind CookieCraft Exchange</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="Project.html">Projects</a>
+    <a href="Aboutme.html">About</a>
+  </nav>
+
+  <section>
+    <h2>Who We Are</h2>
+    <p>We are <span class="highlight">Dezs frin & kinthesans</span>, creators, coders, and cookie enthusiasts. Our mission is to craft worlds and mods that feel alive — interactive, immersive, and organic.</p>
+  </section>
+
+  <section>
+    <h2>Skills & Projects</h2>
+    <ul>
+      <li>Minecraft world building & custom maps</li>
+      <li>Mod creation & educational mods</li>
+      <li>Web development with living animations</li>
+      <li>Visual effects & animation</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Fun Facts</h2>
+    <ul>
+      <li>Baking cookies as a currency 🍪</li>
+      <li>Experimenting with organic animations & neon streaks</li>
+      <li>Making worlds that feel alive and interactive</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Channel & Subscriber Perks</h2>
+    <p>Check out our YouTube channel: <a href="https://www.youtube.com/@dezsfrin" target="_blank">dezs frin</a></p>
+    <p>Every verified subscriber gets the <span class="highlight">Subscriber Rank</span> on our community!</p>
+  </section>
+
+  <footer>© 2025 CookieCraft Exchange • Made by Dezs frin & kinthesans</footer>
+</div>
+
+<script>
+  const particlesContainer = document.getElementById('particles');
+
+  // --- Create static particles with velocity ---
+  const particles = [];
+  for(let i=0;i<50;i++){
+    const p = document.createElement('div');
+    p.className='particle';
+    const size=2+Math.random()*6;
+    p.style.width=size+'px';
+    p.style.height=size+'px';
+    p.x = Math.random() * window.innerWidth;
+    p.y = Math.random() * window.innerHeight;
+    p.vx = (Math.random()-0.5) * 0.3;
+    p.vy = (Math.random()-0.5) * 0.3;
+    p.style.left = p.x + 'px';
+    p.style.top = p.y + 'px';
+    particlesContainer.appendChild(p);
+    particles.push(p);
+  }
+
+  function animateParticles(){
+    particles.forEach(p=>{
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if(mouse.x!==undefined && mouse.y!==undefined){
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if(dist < 150){
+          const force = (150-dist)/150 * 0.5;
+          p.vx += dx*force*0.0005;
+          p.vy += dy*force*0.0005;
+        }
+      }
+
+      if(p.x < 0) p.x = window.innerWidth;
+      if(p.x > window.innerWidth) p.x = 0;
+      if(p.y < 0) p.y = window.innerHeight;
+      if(p.y > window.innerHeight) p.y = 0;
+
+      p.style.left = p.x + 'px';
+      p.style.top = p.y + 'px';
+    });
+    requestAnimationFrame(animateParticles);
+  }
+
+  const mouse = {x:undefined, y:undefined};
+  document.addEventListener('mousemove', e=>{
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+
+    const trail = document.createElement('div');
+    trail.className='trail';
+    trail.style.left = `${e.clientX}px`;
+    trail.style.top = `${e.clientY}px`;
+    document.body.appendChild(trail);
+    setTimeout(()=>trail.remove(),600);
+  });
+
+  animateParticles();
+
+  // --- Hover Sparks ---
+  const sections = document.querySelectorAll('section');
+  sections.forEach(sec=>{
+    sec.addEventListener('mouseenter', e=>{
+      sec.style.transform='translateY(-2px)';
+      setTimeout(()=>{sec.style.transform='translateY(0)';},150);
+      for(let i=0;i<3;i++){
+        const spark = document.createElement('div');
+        spark.className='spark';
+        spark.style.left = Math.random() * (sec.offsetWidth-6) + 'px';
+        spark.style.top = Math.random() * (sec.offsetHeight-6) + 'px';
+        sec.appendChild(spark);
+        setTimeout(()=>{spark.remove()},500);
+      }
+    });
+  });
+</script>
+</body>
+</html>
